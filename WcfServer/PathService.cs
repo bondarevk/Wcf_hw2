@@ -7,16 +7,18 @@ namespace WcfServer
 {
     public class PathService : IPathService
     {
-        public string[] GetPathInfo(string path)
+        public void RequestPathInfo(string path)
         {
+            IPathCallback callback = OperationContext.Current.GetCallbackChannel<IPathCallback>();
             try
             {
                 DirectoryInfo dir = new DirectoryInfo(path);
-                return dir.GetDirectories().Select(d => d.Name).Concat(dir.GetFiles().Select(f => f.Name)).ToArray();
+                string[] info = dir.GetDirectories().Select(d => d.Name).Concat(dir.GetFiles().Select(f => f.Name)).ToArray();
+                callback.ReceivePathInfo(info);
             }
             catch (Exception ex)
             {
-                throw new FaultException<PathFault>(new PathFault(ex.Message));
+                callback.OnError("Ошибка получения содержимого папки.");
             }
         }
     }

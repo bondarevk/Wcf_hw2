@@ -9,65 +9,27 @@
 //------------------------------------------------------------------------------
 
 namespace WcfClient.WcfService {
-    using System.Runtime.Serialization;
-    using System;
     
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PathFault", Namespace="http://schemas.datacontract.org/2004/07/WcfServer")]
-    [System.SerializableAttribute()]
-    public partial class PathFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WcfService.IPathService", CallbackContract=typeof(WcfClient.WcfService.IPathServiceCallback))]
+    public interface IPathService {
         
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IPathService/RequestPathInfo")]
+        void RequestPathInfo(string path);
         
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ExceptionMessageField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ExceptionMessage {
-            get {
-                return this.ExceptionMessageField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ExceptionMessageField, value) != true)) {
-                    this.ExceptionMessageField = value;
-                    this.RaisePropertyChanged("ExceptionMessage");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IPathService/RequestPathInfo")]
+        System.Threading.Tasks.Task RequestPathInfoAsync(string path);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="WcfService.IPathService")]
-    public interface IPathService {
+    public interface IPathServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPathService/GetPathInfo", ReplyAction="http://tempuri.org/IPathService/GetPathInfoResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(WcfClient.WcfService.PathFault), Action="http://tempuri.org/IPathService/GetPathInfoPathFaultFault", Name="PathFault", Namespace="http://schemas.datacontract.org/2004/07/WcfServer")]
-        string[] GetPathInfo(string path);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IPathService/ReceivePathInfo")]
+        void ReceivePathInfo(string[] info);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPathService/GetPathInfo", ReplyAction="http://tempuri.org/IPathService/GetPathInfoResponse")]
-        System.Threading.Tasks.Task<string[]> GetPathInfoAsync(string path);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IPathService/OnError")]
+        void OnError(string message);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -76,33 +38,34 @@ namespace WcfClient.WcfService {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class PathServiceClient : System.ServiceModel.ClientBase<WcfClient.WcfService.IPathService>, WcfClient.WcfService.IPathService {
+    public partial class PathServiceClient : System.ServiceModel.DuplexClientBase<WcfClient.WcfService.IPathService>, WcfClient.WcfService.IPathService {
         
-        public PathServiceClient() {
+        public PathServiceClient(System.ServiceModel.InstanceContext callbackInstance) : 
+                base(callbackInstance) {
         }
         
-        public PathServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+        public PathServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName) : 
+                base(callbackInstance, endpointConfigurationName) {
         }
         
-        public PathServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public PathServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, string remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public PathServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+        public PathServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, endpointConfigurationName, remoteAddress) {
         }
         
-        public PathServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+        public PathServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(callbackInstance, binding, remoteAddress) {
         }
         
-        public string[] GetPathInfo(string path) {
-            return base.Channel.GetPathInfo(path);
+        public void RequestPathInfo(string path) {
+            base.Channel.RequestPathInfo(path);
         }
         
-        public System.Threading.Tasks.Task<string[]> GetPathInfoAsync(string path) {
-            return base.Channel.GetPathInfoAsync(path);
+        public System.Threading.Tasks.Task RequestPathInfoAsync(string path) {
+            return base.Channel.RequestPathInfoAsync(path);
         }
     }
 }

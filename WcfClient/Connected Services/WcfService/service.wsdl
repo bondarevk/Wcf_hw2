@@ -36,42 +36,51 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/WcfServer" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IPathService_GetPathInfo_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetPathInfo" />
+  <wsdl:message name="IPathService_RequestPathInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:RequestPathInfo" />
   </wsdl:message>
-  <wsdl:message name="IPathService_GetPathInfo_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetPathInfoResponse" />
+  <wsdl:message name="IPathService_ReceivePathInfo_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:ReceivePathInfo" />
   </wsdl:message>
-  <wsdl:message name="IPathService_GetPathInfo_PathFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/WcfServer" name="detail" element="q1:PathFault" />
+  <wsdl:message name="IPathService_OnError_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnError" />
   </wsdl:message>
   <wsdl:portType name="IPathService">
-    <wsdl:operation name="GetPathInfo">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPathService/GetPathInfo" message="tns:IPathService_GetPathInfo_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPathService/GetPathInfoResponse" message="tns:IPathService_GetPathInfo_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IPathService/GetPathInfoPathFaultFault" name="PathFaultFault" message="tns:IPathService_GetPathInfo_PathFaultFault_FaultMessage" />
+    <wsdl:operation name="RequestPathInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPathService/RequestPathInfo" message="tns:IPathService_RequestPathInfo_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceivePathInfo">
+      <wsdl:output wsaw:Action="http://tempuri.org/IPathService/ReceivePathInfo" message="tns:IPathService_ReceivePathInfo_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="OnError">
+      <wsdl:output wsaw:Action="http://tempuri.org/IPathService/OnError" message="tns:IPathService_OnError_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="NetTcpBinding_IPathService" type="tns:IPathService">
     <wsp:PolicyReference URI="#NetTcpBinding_IPathService_policy">
     </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
-    <wsdl:operation name="GetPathInfo">
-      <soap12:operation soapAction="http://tempuri.org/IPathService/GetPathInfo" style="document" />
+    <wsdl:operation name="RequestPathInfo">
+      <soap12:operation soapAction="http://tempuri.org/IPathService/RequestPathInfo" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="ReceivePathInfo">
+      <soap12:operation soapAction="http://tempuri.org/IPathService/ReceivePathInfo" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="PathFaultFault">
-        <soap12:fault use="literal" name="PathFaultFault" namespace="" />
-      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="OnError">
+      <soap12:operation soapAction="http://tempuri.org/IPathService/OnError" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="PathService">

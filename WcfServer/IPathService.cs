@@ -4,23 +4,19 @@ using System.ServiceModel;
 
 namespace WcfServer
 {
-    [ServiceContract]
+    [ServiceContract(CallbackContract = typeof(IPathCallback))]
     public interface IPathService
     {
-        [OperationContract]
-        [FaultContract(typeof(PathFault))]
-        string[] GetPathInfo(string path);
+        [OperationContract(IsOneWay = true)]
+        void RequestPathInfo(string path);
     }
-
-    [DataContract]
-    public class PathFault
+    
+    public interface IPathCallback
     {
-        [DataMember]
-        public readonly string ExceptionMessage;
+        [OperationContract(IsOneWay = true)]
+        void ReceivePathInfo(string[] info);
 
-        public PathFault(string message)
-        {
-            ExceptionMessage = message;
-        }
+        [OperationContract(IsOneWay = true)]
+        void OnError(string message);
     }
 }
